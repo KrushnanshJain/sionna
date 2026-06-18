@@ -52,3 +52,20 @@ Plus `dataset/meta.json` with all generation parameters.
 Note: raw complex `H` is stored. Magnitude/phase preprocessing and the
 angle-delay transform belong in the downstream ML code, not the dataset.
 `N_ant` varies across scenes by design, hence the per-scene files.
+
+## Visualizing a scene
+
+`visualize_dataset.py` renders, for one scene file, a top-down map (building
+footprints, the BS with its ULA azimuth, and the database/query UE positions)
+plus the `|H|` and `angle(H)` CSI heatmaps of one sample. It uses a headless
+backend and saves a PNG, so it works over SSH.
+
+```bash
+python localization/visualize_dataset.py dataset/seen_scene_000.npz \
+    --sample-idx 0 --out scene0.png
+```
+
+In the CSI heatmaps, variation across subcarriers (columns) reflects the
+delay/multipath structure, while the banding across antennas (rows) in
+`angle(H)` reflects the per-antenna phase progression that encodes the angle of
+arrival.
